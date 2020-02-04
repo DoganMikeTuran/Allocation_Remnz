@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tozoz\\Source\\Repos\\alloc_example\\Allocation\\Allocation.csproj": {}
+    "/Users/dmt1/Desktop/Allocation_Remnz/Allocation_Remnz/Allocation/Allocation.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tozoz\\Source\\Repos\\alloc_example\\Allocation\\Allocation.csproj": {
+    "/Users/dmt1/Desktop/Allocation_Remnz/Allocation_Remnz/Allocation/Allocation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tozoz\\Source\\Repos\\alloc_example\\Allocation\\Allocation.csproj",
+        "projectUniqueName": "/Users/dmt1/Desktop/Allocation_Remnz/Allocation_Remnz/Allocation/Allocation.csproj",
         "projectName": "Allocation",
-        "projectPath": "C:\\Users\\tozoz\\Source\\Repos\\alloc_example\\Allocation\\Allocation.csproj",
-        "packagesPath": "C:\\Users\\tozoz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tozoz\\Source\\Repos\\alloc_example\\Allocation\\obj\\",
+        "projectPath": "/Users/dmt1/Desktop/Allocation_Remnz/Allocation_Remnz/Allocation/Allocation.csproj",
+        "packagesPath": "/Users/dmt1/.nuget/packages/",
+        "outputPath": "/Users/dmt1/Desktop/Allocation_Remnz/Allocation_Remnz/Allocation/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\tozoz\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/dmt1/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -87,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
         }
       }
     }

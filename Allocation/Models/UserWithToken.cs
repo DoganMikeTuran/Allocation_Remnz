@@ -7,13 +7,15 @@ namespace Allocation.Models
 {
     public class UserWithToken
     {
-        public UserWithToken(EmpUser empuser)
+        public UserWithToken(string firstname, string lastname)
         {
-            this.empuser = empuser;
+            this.firstname = firstname;
+            this.lastname = lastname;
         }
 
         public string Token { get; internal set; }
-        public EmpUser empuser { get; set; }
+        public string firstname { get; set; }
+        public string lastname { get; set; }
 
 
     }

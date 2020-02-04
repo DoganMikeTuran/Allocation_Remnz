@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Allocation.Controllers
 {
-  
+    
     [Route("api/[controller]")]
     [ApiController]
     public class EmpUsersController : ControllerBase
@@ -29,15 +29,15 @@ namespace Allocation.Controllers
             _context = context;
             _jwtsettings = jwtsettings.Value;
         }
-
+        
         [HttpGet("Login/")]
         public async Task<ActionResult<UserWithToken>> Login([FromBody] EmpUser empuser)
         {
             empuser = await _context.EmpUser
                 .Include(e => e.EmpSkill)
-                .Where(e => e.Email == empuser.Email && e.Password == e.Password)
+                .Where(e => e.Email == empuser.Email && e.Password == empuser.Password)
                 .FirstOrDefaultAsync();
-            UserWithToken userWithToken = new UserWithToken(empuser);
+            UserWithToken userWithToken = new UserWithToken(empuser.Firstname, empuser.Lastname);
 
             if(userWithToken == null)
             {
@@ -69,9 +69,9 @@ namespace Allocation.Controllers
         }
 
         // GET: api/EmpUsers/5
-        
+        [Authorize] 
         [HttpGet("GetEmpUserDetails/{id}")]
-        public async Task<ActionResult<EmpUser>> GetEmpUserDetails(int id) 
+        public ActionResult<EmpUser> GetEmpUserDetails(int id)
         {
             var empUser = _context.EmpUser
                 .Include(user => user.EmpSkill)
@@ -83,7 +83,7 @@ namespace Allocation.Controllers
             return empUser;
         }
         [HttpGet("PostEmpUserDetails/")]
-        public async Task<ActionResult<EmpUser>> PostEmpUserDetails()
+        public ActionResult<EmpUser> PostEmpUserDetails()
         {
             var empuser = new EmpUser();
 
@@ -93,8 +93,8 @@ namespace Allocation.Controllers
 
             _context.EmpUser.Add(empuser);
             _context.SaveChanges();
-            
-           
+
+
             EmpSkill empskill1 = new EmpSkill();
 
             empskill1.ClientId = empuser.ClientId;
@@ -102,7 +102,7 @@ namespace Allocation.Controllers
             empskill1.SkillId = 8;
             empuser.EmpSkill.Add(empskill1);
             _context.SaveChanges();
-             
+
 
 
             var empUser = _context.EmpUser
