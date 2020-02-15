@@ -21,93 +21,52 @@ namespace Allocation.Controllers
     public class EmpUsersController : ControllerBase
     {
         private readonly remnz1Context _context;
-        // Her opretter vi en instans af klassen vi har lavet
-        private readonly JWTSettings _jwtsettings;
 
-        public EmpUsersController(remnz1Context context, IOptions<JWTSettings> jwtsettings)
+        public EmpUsersController(remnz1Context context)
         {
             _context = context;
-            _jwtsettings = jwtsettings.Value;
+            
         }
         
-        [HttpGet("Login/")]
-        public async Task<ActionResult<UserWithToken>> Login([FromBody] EmpUser empuser)
-        {
-            empuser = await _context.EmpUser
-                .Include(e => e.EmpSkill)
-                .Where(e => e.Email == empuser.Email && e.Password == empuser.Password)
-                .FirstOrDefaultAsync();
-            UserWithToken userWithToken = new UserWithToken(empuser.Firstname, empuser.Lastname);
-
-            if(userWithToken == null)
-            {
-                return NotFound();
-            }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtsettings.SecretKey);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, empuser.Email)
-                }),
-                Expires = DateTime.UtcNow.AddMonths(6),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            userWithToken.Token = tokenHandler.WriteToken(token);
-
-            return userWithToken;
-        }
-
+       
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmpUser>>> GetEmpUserList()
+        public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList()
         {
-            var UserWithUserSKills = await _context.EmpUser.Include(x => x.EmpSkill).Include(x => x.EmpSubSkill).ToListAsync();
+            var UserWithUserSKills = await _context.User.Include(x => x.UserSubSkill).ToListAsync();
             return UserWithUserSKills;
         }
 
         // GET: api/EmpUsers/5
-        [Authorize] 
+        
         [HttpGet("GetEmpUserDetails/{id}")]
-        public ActionResult<EmpUser> GetEmpUserDetails(int id)
+        [Authorize]
+        public ActionResult<User> GetEmpUserDetails(int id)
         {
-            var empUser = _context.EmpUser
-                .Include(user => user.EmpSkill)
-                    .ThenInclude(skill => skill.FoSkill)
-                .Include(user => user.EmpSubSkill)
+            var empUser = _context.User
+                .Include(user => user.UserSubSkill)
                     .ThenInclude(subskill => subskill.FoSubSkill)
                 .Where(user => user.Id == id).FirstOrDefault();
 
             return empUser;
         }
-        [HttpGet("PostEmpUserDetails/")]
-        public ActionResult<EmpUser> PostEmpUserDetails()
+
+        [HttpPost("PostEmpUserDetails/")]
+        public ActionResult<User> PostEmpUserDetails()
         {
-            var empuser = new EmpUser();
+            var empuser = new User();
 
             empuser.ClientId = 7;
             empuser.Firstname = "Dogan";
-            empuser.Email = "sadas";
+            
 
-            _context.EmpUser.Add(empuser);
-            _context.SaveChanges();
-
-
-            EmpSkill empskill1 = new EmpSkill();
-
-            empskill1.ClientId = empuser.ClientId;
-            empskill1.UserId = empuser.Id;
-            empskill1.SkillId = 8;
-            empuser.EmpSkill.Add(empskill1);
+            _context.User.Add(empuser);
             _context.SaveChanges();
 
 
 
-            var empUser = _context.EmpUser
-                .Include(user => user.EmpSkill)
-                    .ThenInclude(skill => skill.FoSkill)
+
+
+            var empUser = _context.User
                 .Where(user => user.Id == empuser.Id).FirstOrDefault();
 
 
@@ -117,9 +76,9 @@ namespace Allocation.Controllers
 
         // GET: api/EmpUsers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmpUser>> GetEmpUser(int id)
+        public async Task<ActionResult<User>> GetEmpUser(int id)
         {
-            var empUser = await _context.EmpUser.FindAsync(id);
+            var empUser = await _context.User.FindAsync(id);
 
             if (empUser == null)
             {
@@ -133,7 +92,7 @@ namespace Allocation.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmpUser(int id, EmpUser empUser)
+        public async Task<IActionResult> PutEmpUser(int id, User empUser)
         {
             if (id != empUser.Id)
             {
@@ -164,26 +123,28 @@ namespace Allocation.Controllers
         // POST: api/EmpUsers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        
         [HttpPost]
-        public async Task<ActionResult<EmpUser>> PostEmpUser(EmpUser empUser)
+        public void PostEmpUser(User empUser)
         {
-            _context.EmpUser.Add(empUser);
-            await _context.SaveChangesAsync();
+            
+            _context.User.Add(empUser);
+             _context.SaveChangesAsync();
+            
 
-            return CreatedAtAction("GetEmpUser", new { id = empUser.Id }, empUser);
         }
 
         // DELETE: api/EmpUsers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<EmpUser>> DeleteEmpUser(int id)
+        public async Task<ActionResult<User>> DeleteEmpUser(int id)
         {
-            var empUser = await _context.EmpUser.FindAsync(id);
+            var empUser = await _context.User.FindAsync(id);
             if (empUser == null)
             {
                 return NotFound();
             }
 
-            _context.EmpUser.Remove(empUser);
+            _context.User.Remove(empUser);
             await _context.SaveChangesAsync();
 
             return empUser;
@@ -191,7 +152,7 @@ namespace Allocation.Controllers
 
         private bool EmpUserExists(int id)
         {
-            return _context.EmpUser.Any(e => e.Id == id);
+            return _context.User.Any(e => e.Id == id);
         }
     }
 }

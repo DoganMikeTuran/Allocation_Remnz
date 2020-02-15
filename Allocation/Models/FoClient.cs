@@ -7,19 +7,22 @@ namespace Allocation.Models
     {
         public FoClient()
         {
-            EmpSkill = new HashSet<EmpSkill>();
-            EmpSubSkill = new HashSet<EmpSubSkill>();
-            EmpUser = new HashSet<EmpUser>();
+            FoRole = new HashSet<FoRole>();
+            FoRoleSubSkill = new HashSet<FoRoleSubSkill>();
             FoSkill = new HashSet<FoSkill>();
+            FoSubSkill = new HashSet<FoSubSkill>();
+            User = new HashSet<User>();
+            UserSubSkill = new HashSet<UserSubSkill>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int AutoId { get; set; }
 
-        public virtual ICollection<EmpSkill> EmpSkill { get; set; }
-        public virtual ICollection<EmpSubSkill> EmpSubSkill { get; set; }
-        public virtual ICollection<EmpUser> EmpUser { get; set; }
+        public virtual ICollection<FoRole> FoRole { get; set; }
+        public virtual ICollection<FoRoleSubSkill> FoRoleSubSkill { get; set; }
         public virtual ICollection<FoSkill> FoSkill { get; set; }
+        public virtual ICollection<FoSubSkill> FoSubSkill { get; set; }
+        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<UserSubSkill> UserSubSkill { get; set; }
     }
 }
