@@ -11,7 +11,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "api/empusers/GetEmpUserDetails/3",
+      "launchUrl": "api/skill",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

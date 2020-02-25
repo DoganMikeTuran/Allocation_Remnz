@@ -1,38 +1,34 @@
 ﻿<Properties StartupConfiguration="{127C6AB9-52FE-46B0-A90C-4C9607CA8F37}|Default">
   <MonoDevelop.Ide.ItemProperties.Allocation PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Allocation/Controllers/EmpUsersController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Allocation/Models/FoSubSkill.cs">
     <Files>
-      <File FileName="Allocation/Controllers/LoginController.cs" Line="36" Column="89" />
-      <File FileName="Allocation/Controllers/EmpUsersController.cs" Line="21" Column="16" />
-      <File FileName="Allocation/Program.cs" />
-      <File FileName="Allocation/Properties/launchSettings.json" />
-      <File FileName="Allocation/appsettings.json" />
-      <File FileName="Allocation/Startup.cs" />
-      <File FileName="Allocation/DTO/UserWithToken.cs" />
-      <File FileName="Allocation/Models/remnz1Context.cs" />
-      <File FileName="Allocation/Models/FoClient.cs" />
-      <File FileName="Allocation/Models/FoRole.cs" />
+      <File FileName="Allocation/Properties/launchSettings.json" Line="14" Column="30" />
+      <File FileName="Allocation/Controllers/EmpUsersController.cs" Line="32" Column="16" />
+      <File FileName="Allocation/Controllers/LoginController.cs" Line="1" Column="1" />
       <File FileName="Allocation/Models/User.cs" />
-      <File FileName="Allocation/Models/FoSubSkill.cs" />
-      <File FileName="Allocation/DTO/SkillWithSubskills.cs" />
-      <File FileName="Allocation/Controllers/SkillController.cs" />
-      <File FileName="Allocation/Models/FoSkill.cs" />
-      <File FileName="Allocation/Controllers/SubSkillController.cs" />
+      <File FileName="Allocation/Controllers/SkillController.cs" Line="47" Column="10" />
+      <File FileName="Allocation/Controllers/SubSkillController.cs" Line="37" Column="7" />
+      <File FileName="Allocation/Models/FoSubSkill.cs" Line="1" Column="1" />
+      <File FileName="Allocation/Models/FoSkill.cs" Line="7" Column="4" />
+      <File FileName="Allocation/Models/remnz1Context.cs" Line="50" Column="37" />
+      <File FileName="Allocation/appsettings.json" Line="1" Column="1" />
+      <File FileName="Allocation/Startup.cs" Line="93" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Allocation" expanded="True">
             <Node name="Allocation" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="EmpUsersController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="DTO" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
             </Node>
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

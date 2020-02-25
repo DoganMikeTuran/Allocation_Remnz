@@ -50,11 +50,12 @@ namespace Allocation.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     
-                    new Claim(ClaimTypes.Surname, empuser.Lastname),
-                   
-                    
+                    new Claim(ClaimTypes.Surname, empuser.ClientId.ToString()),
+                    new Claim(JwtRegisteredClaimNames.NameId, empuser.Firstname),
+                    new Claim(JwtRegisteredClaimNames.Sub, empuser.Lastname)
+
                 }),
-                Expires = DateTime.UtcNow.AddMonths(6),
+                Expires = DateTime.UtcNow.AddHours(5),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };

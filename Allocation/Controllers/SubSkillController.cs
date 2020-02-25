@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Allocation.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,24 +28,58 @@ namespace Allocation.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        //[HttpGet("{c}")]
+        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> Get(int clientid)
+        //{
+        //    return await _context.FoSubSkill.Where(x => x.ClientId == fosubskill.ClientId && x.SkillId == fosubskill.SkillId).ToListAsync();
+        //}
+
+        //[HttpGet("{clientid}/{skillid}")]
+        //[Authorize]
+        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> getAllSubSkillBySkillId([FromBody]int clientid, int skillid)
+        //{
+
+        //    return await _context.FoSubSkill.Where(x => x.ClientId == clientid && x.SkillId == skillid).ToListAsync();
+
+
+        //}
+
+
+        //[HttpPost("{get}")]
+
+        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> getAllSubSkillBySkillId([FromBody]FoSubSkill fosubskill)
+        //{
+
+        //    return await _context.FoSubSkill.Where(x => x.ClientId == fosubskill.ClientId && x.SkillId == fosubskill.SkillId).ToListAsync();
+
+
+        //}
+
+        [HttpGet("{clientid}/{skillid}")]
+
+        public async Task<ActionResult<IEnumerable<FoSubSkill>>> Getai(int clientid, int skillid)
         {
-            return "value";
+            return await _context.FoSubSkill.Where(x => x.ClientId == clientid && x.SkillId == skillid).ToListAsync();
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]FoSubSkill fosubskill)
+      
+        public void Post([FromBody]FoSubSkill fosubskill) 
         {
-            fosubskill.ClientId = 100001;
-            fosubskill.SkillId = 2;
-            _context.FoSubSkill.Add(fosubskill);
-       
-            _context.SaveChangesAsync();
+            try
+            {
+                _context.FoSubSkill.Add(fosubskill);
+
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
             
         }
+
+       
 
         // PUT api/values/5
         [HttpPut("{id}")]

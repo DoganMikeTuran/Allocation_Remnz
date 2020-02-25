@@ -22,7 +22,6 @@ namespace Allocation.Models
         public virtual DbSet<FoSubSkill> FoSubSkill { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserSubSkill> UserSubSkill { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -34,6 +33,8 @@ namespace Allocation.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
+
             modelBuilder.Entity<FoClient>(entity =>
             {
                 entity.ToTable("FO_CLIENT");

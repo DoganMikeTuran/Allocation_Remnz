@@ -123,15 +123,16 @@ namespace Allocation.Controllers
         // POST: api/EmpUsers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        
+       
         [HttpPost]
-        public void PostEmpUser(User empUser)
+        [Authorize]
+        public User PostEmpUser(User empUser)
         {
-            
+         
             _context.User.Add(empUser);
              _context.SaveChangesAsync();
-            
 
+            return empUser;
         }
 
         // DELETE: api/EmpUsers/5
