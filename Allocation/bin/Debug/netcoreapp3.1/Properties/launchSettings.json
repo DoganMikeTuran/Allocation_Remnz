@@ -18,8 +18,6 @@
     },
     "Allocation": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/empusers/GetEmpUserDetails/3",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

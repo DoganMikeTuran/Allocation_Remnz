@@ -27,28 +27,45 @@ namespace Allocation.Controllers
             _context = context;
             
         }
-        
-       
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList()
+
+
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList()
+        //{
+        //    var UserWithUserSKills = await _context.User.Include(x => x.UserSubSkill).ToListAsync();
+        //    return UserWithUserSKills;
+        //}
+        [HttpGet("{subskillid}/{clientid}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList(int subskillid, int clientid)
         {
-            var UserWithUserSKills = await _context.User.Include(x => x.UserSubSkill).ToListAsync();
-            return UserWithUserSKills;
+            var UsersBySubSkill = _context.User.Select(user => new User
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Lastname = user.Lastname,
+                Firstname = user.Firstname,
+                ClientId = user.ClientId,
+
+                UserSubSkill = user.UserSubSkill.Where(s => s.SubSkillId == subskillid).ToList(),
+            }).Where(x => x.ClientId == clientid);
+
+
+            return await UsersBySubSkill.ToListAsync();
         }
 
         // GET: api/EmpUsers/5
-        
-        [HttpGet("GetEmpUserDetails/{id}")]
-        [Authorize]
-        public ActionResult<User> GetEmpUserDetails(int id)
-        {
-            var empUser = _context.User
-                .Include(user => user.UserSubSkill)
-                    .ThenInclude(subskill => subskill.FoSubSkill)
-                .Where(user => user.Id == id).FirstOrDefault();
 
-            return empUser;
-        }
+        //[HttpGet("GetEmpUserDetails/{id}")]
+        //[Authorize]
+        //public ActionResult<User> GetEmpUserDetails(int id)
+        //{
+        //    var empUser = _context.User
+        //        .Include(user => user.UserSubSkill)
+        //            .ThenInclude(subskill => subskill.FoSubSkill)
+        //        .Where(user => user.Id == id).FirstOrDefault();
+
+        //    return empUser;
+        //}
 
         [HttpPost("PostEmpUserDetails/")]
         public ActionResult<User> PostEmpUserDetails()
@@ -75,18 +92,18 @@ namespace Allocation.Controllers
         }
 
         // GET: api/EmpUsers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetEmpUser(int id)
-        {
-            var empUser = await _context.User.FindAsync(id);
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<User>> GetEmpUser(int id)
+        //{
+        //    var empUser = await _context.User.FindAsync(id);
 
-            if (empUser == null)
-            {
-                return NotFound();
-            }
+        //    if (empUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return empUser;
-        }
+        //    return empUser;
+        //}
 
         // PUT: api/EmpUsers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -136,10 +153,11 @@ namespace Allocation.Controllers
         }
 
         // DELETE: api/EmpUsers/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteEmpUser(int id)
+        [HttpDelete("{id}/{clientid}")]
+        public async Task<ActionResult<User>> DeleteEmpUser(int id, int clientid)
         {
-            var empUser = await _context.User.FindAsync(id);
+            
+            var empUser = await _context.User.SingleOrDefaultAsync(x => x.Id == id && x.ClientId == clientid);
             if (empUser == null)
             {
                 return NotFound();
