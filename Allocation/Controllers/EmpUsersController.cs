@@ -28,15 +28,8 @@ namespace Allocation.Controllers
             
         }
 
-
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList()
-        //{
-        //    var UserWithUserSKills = await _context.User.Include(x => x.UserSubSkill).ToListAsync();
-        //    return UserWithUserSKills;
-        //}
         [HttpGet("{subskillid}/{clientid}")]
-        public async Task<ActionResult<IEnumerable<User>>> GetEmpUserList(int subskillid, int clientid)
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersSelectingUserSubSkill(int subskillid, int clientid)
         {
             var UsersBySubSkill = _context.User.Select(user => new User
             {
@@ -53,20 +46,6 @@ namespace Allocation.Controllers
             return await UsersBySubSkill.ToListAsync();
         }
 
-        // GET: api/EmpUsers/5
-
-        //[HttpGet("GetEmpUserDetails/{id}")]
-        //[Authorize]
-        //public ActionResult<User> GetEmpUserDetails(int id)
-        //{
-        //    var empUser = _context.User
-        //        .Include(user => user.UserSubSkill)
-        //            .ThenInclude(subskill => subskill.FoSubSkill)
-        //        .Where(user => user.Id == id).FirstOrDefault();
-
-        //    return empUser;
-        //}
-
         [HttpPost("PostEmpUserDetails/")]
         public ActionResult<User> PostEmpUserDetails()
         {
@@ -79,35 +58,12 @@ namespace Allocation.Controllers
             _context.User.Add(empuser);
             _context.SaveChanges();
 
-
-
-
-
             var empUser = _context.User
                 .Where(user => user.Id == empuser.Id).FirstOrDefault();
-
-
 
             return empUser;
         }
 
-        // GET: api/EmpUsers/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<User>> GetEmpUser(int id)
-        //{
-        //    var empUser = await _context.User.FindAsync(id);
-
-        //    if (empUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return empUser;
-        //}
-
-        // PUT: api/EmpUsers/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmpUser(int id, User empUser)
         {
@@ -136,10 +92,6 @@ namespace Allocation.Controllers
 
             return NoContent();
         }
-
-        // POST: api/EmpUsers
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
        
         [HttpPost]
         [Authorize]

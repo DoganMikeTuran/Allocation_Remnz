@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Allocation.DTO;
 using Allocation.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,31 +11,33 @@ using Microsoft.EntityFrameworkCore;
 namespace Allocation.Controllers
 {
     [Route("api/[controller]")]
-    public class SkillController : Controller
+    public class TrackController : Controller
     {
         private readonly remnz1Context _context;
 
-        public SkillController(remnz1Context context)
+        public TrackController(remnz1Context context)
         {
             _context = context;
 
         }
 
-        
-        [HttpGet("{clientid}")]
-        
-        public async Task<ActionResult<IEnumerable<FoSkill>>> Get(int clientid)
+        // GET: api/values
+        [HttpGet("{clientid}/{projectid}")]
+
+        public async Task<ActionResult<IEnumerable<PrTrack>>> GetTrackByProjectId(int clientid, int projectid)
         {
-            return await _context.FoSkill.Where(x => x.ClientId == clientid).ToListAsync();
+            return await _context.PrTrack.Where(x => x.ClientId == clientid && x.ProjectId == projectid).ToListAsync();
+
         }
 
-     
-       [HttpPost]
-        public string Post([FromBody]FoSkill foskill)
+        [HttpPost]
+        public string Post([FromBody]PrTrack prtrack)
         {
-            _context.FoSkill.Add(foskill);
+            
+           _context.PrTrack.Add(prtrack);
             _context.SaveChanges();
-            return foskill.Id.ToString();
+            return prtrack.Id.ToString();
         }
+
     }
 }

@@ -32,7 +32,6 @@ namespace Allocation.Controllers
         public async Task<ActionResult<UserWithToken>> Login([FromBody] User empuser)
         {
             empuser = await _context.User
-                .Include(e => e.UserSubSkill)
                 .Where(e => e.Firstname == empuser.Firstname && e.Lastname == empuser.Lastname)
                 
                 .FirstOrDefaultAsync();
@@ -66,26 +65,5 @@ namespace Allocation.Controllers
         }
 
         
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-     
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

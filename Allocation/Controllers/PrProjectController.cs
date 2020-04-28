@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Allocation.DTO;
 using Allocation.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,31 +11,31 @@ using Microsoft.EntityFrameworkCore;
 namespace Allocation.Controllers
 {
     [Route("api/[controller]")]
-    public class SkillController : Controller
+    public class PrProjectController : Controller
     {
         private readonly remnz1Context _context;
 
-        public SkillController(remnz1Context context)
+        public PrProjectController(remnz1Context context)
         {
             _context = context;
 
         }
-
-        
         [HttpGet("{clientid}")]
-        
-        public async Task<ActionResult<IEnumerable<FoSkill>>> Get(int clientid)
+
+        public async Task<ActionResult<IEnumerable<PrProject>>> Get(int clientid)
         {
-            return await _context.FoSkill.Where(x => x.ClientId == clientid).ToListAsync();
+            return await _context.PrProject.Where(x => x.ClientId == clientid).ToListAsync();
         }
 
-     
-       [HttpPost]
-        public string Post([FromBody]FoSkill foskill)
+
+
+        [HttpPost]
+        public string Post([FromBody]PrProject prproject)
         {
-            _context.FoSkill.Add(foskill);
+            prproject.Template = true;
+            _context.PrProject.Add(prproject);
             _context.SaveChanges();
-            return foskill.Id.ToString();
+            return prproject.Id.ToString();
         }
     }
 }

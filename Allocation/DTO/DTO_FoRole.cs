@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Allocation.Models;
 
-namespace Allocation.Models
+namespace Allocation.DTO
 {
-    public partial class FoRole
+    public class DTO_FoRole
     {
-        public FoRole()
+        public DTO_FoRole()
         {
             FoRoleSubSkill = new HashSet<FoRoleSubSkill>();
             TrackRole = new HashSet<TrackRole>();
         }
-
         public int ClientId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string TrackName { get; set; }
         public DateTime? Startdate { get; set; }
         public DateTime? Enddate { get; set; }
         public Boolean Template { get; set; }

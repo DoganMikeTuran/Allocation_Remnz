@@ -20,25 +20,7 @@ namespace Allocation.Controllers
             _context = context;
 
         }
-        // GET: api/values
-        [HttpGet]
-
-        public async Task<ActionResult<IEnumerable<UserSubSkill>>> Getai()
-        {
-           var usersubskill = await _context.UserSubSkill
-                 .Include(user => user.User)
-                 
-
-                .ToListAsync();
-            return usersubskill;
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+     
 
         // POST api/values
         [HttpPost]

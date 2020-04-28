@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Allocation.DTO;
 using Allocation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,50 +22,39 @@ namespace Allocation.Controllers
             _context = context;
 
         }
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        //[HttpGet("{c}")]
-        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> Get(int clientid)
-        //{
-        //    return await _context.FoSubSkill.Where(x => x.ClientId == fosubskill.ClientId && x.SkillId == fosubskill.SkillId).ToListAsync();
-        //}
-
-        //[HttpGet("{clientid}/{skillid}")]
-        //[Authorize]
-        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> getAllSubSkillBySkillId([FromBody]int clientid, int skillid)
-        //{
-
-        //    return await _context.FoSubSkill.Where(x => x.ClientId == clientid && x.SkillId == skillid).ToListAsync();
-
-
-        //}
-
-
-        //[HttpPost("{get}")]
-
-        //public async Task<ActionResult<IEnumerable<FoSubSkill>>> getAllSubSkillBySkillId([FromBody]FoSubSkill fosubskill)
-        //{
-
-        //    return await _context.FoSubSkill.Where(x => x.ClientId == fosubskill.ClientId && x.SkillId == fosubskill.SkillId).ToListAsync();
-
-
-        //}
 
         [HttpGet("{clientid}/{skillid}")]
 
-        public async Task<ActionResult<IEnumerable<FoSubSkill>>> Getai(int clientid, int skillid)
+        public async Task<ActionResult<IEnumerable<FoSubSkill>>> GetSubSkillsBySkillid(int clientid, int skillid)
         {
             return await _context.FoSubSkill.Where(x => x.ClientId == clientid && x.SkillId == skillid).ToListAsync();
         }
 
+
+        [HttpGet("get/{roleid}/{clientid}")]
+        public async Task<IEnumerable<DTO_SubSkill>> GetAllSubSkillWithIncluding(int roleid, int clientid)
+        {
+            return await _context.FoSubSkill.Where(x => x.ClientId == clientid).Include(e => e.FoRoleSubSkill).Include(e => e.FoSkill)
+            .Select(subskill => new DTO_SubSkill
+            {
+                Id = subskill.Id,
+                Name = subskill.Name,
+                ClientId = subskill.ClientId,
+                SkillName = subskill.FoSkill.Name,
+                FoRoleSubSkill = subskill.FoRoleSubSkill.Where(s => s.RoleId == roleid).Select(x => new FoRoleSubSkill
+                {
+                    Proficiency = x.Proficiency,
+                    RoleId = x.RoleId,
+                    SubSkillId = x.SubSkillId,
+                    ClientId = x.ClientId
+                }).ToList(),
+            }).ToListAsync();
+
+        }
+
         [HttpPost]
       
-        public void Post([FromBody]FoSubSkill fosubskill) 
+        public void PostSubSkill([FromBody]FoSubSkill fosubskill) 
         {
             try
             {
@@ -77,20 +67,6 @@ namespace Allocation.Controllers
                 Console.Write(e);
             }
             
-        }
-
-       
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -1,38 +1,22 @@
 ﻿<Properties StartupConfiguration="{127C6AB9-52FE-46B0-A90C-4C9607CA8F37}|Default">
   <MonoDevelop.Ide.ItemProperties.Allocation PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Allocation/Controllers/SkillController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Allocation/appsettings.json">
     <Files>
-      <File FileName="Allocation/Properties/launchSettings.json" Line="1" Column="1" />
-      <File FileName="Allocation/Controllers/EmpUsersController.cs" />
-      <File FileName="Allocation/Controllers/LoginController.cs" />
-      <File FileName="Allocation/Models/User.cs" />
-      <File FileName="Allocation/Controllers/SkillController.cs" Line="42" Column="1" />
-      <File FileName="Allocation/Controllers/SubSkillController.cs" />
-      <File FileName="Allocation/Models/FoSubSkill.cs" />
-      <File FileName="Allocation/Models/FoSkill.cs" />
-      <File FileName="Allocation/Models/remnz1Context.cs" />
-      <File FileName="Allocation/appsettings.json" />
-      <File FileName="Allocation/Startup.cs" />
-      <File FileName="Allocation/Controllers/UserSubSkillController.cs" />
-      <File FileName="Allocation/Models/UserSubSkill.cs" />
+      <File FileName="Allocation/appsettings.json" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Allocation" expanded="True">
             <Node name="Allocation" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="SkillController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="DTO" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
+              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

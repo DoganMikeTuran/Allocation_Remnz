@@ -20,21 +20,23 @@ namespace Allocation.Models
         public virtual DbSet<FoRoleSubSkill> FoRoleSubSkill { get; set; }
         public virtual DbSet<FoSkill> FoSkill { get; set; }
         public virtual DbSet<FoSubSkill> FoSubSkill { get; set; }
+        public virtual DbSet<PrProject> PrProject { get; set; }
+        public virtual DbSet<PrTrack> PrTrack { get; set; }
+        public virtual DbSet<TrackRole> TrackRole { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserSubSkill> UserSubSkill { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=tcp:remnz1.database.windows.net,1433;Initial Catalog=remnz1;Persist Security Info=False;User ID=remnz;Password=Scarface123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
-
             modelBuilder.Entity<FoClient>(entity =>
             {
                 entity.ToTable("FO_CLIENT");
@@ -58,10 +60,20 @@ namespace Allocation.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Enddate)
+                    .HasColumnName("ENDDATE")
+                    .HasColumnType("date");
+
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasColumnName("NAME")
-                    .HasMaxLength(32)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Startdate)
+                    .HasColumnName("STARTDATE")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Template).HasColumnName("TEMPLATE");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.FoRole)
@@ -159,6 +171,110 @@ namespace Allocation.Models
                     .HasConstraintName("FK_FO_SUB_SKILL_FO_SKILL");
             });
 
+            modelBuilder.Entity<PrProject>(entity =>
+            {
+                entity.HasKey(e => new { e.ClientId, e.Id });
+
+                entity.ToTable("PR_PROJECT");
+
+                entity.Property(e => e.ClientId).HasColumnName("CLIENT_ID");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Enddate)
+                    .HasColumnName("ENDDATE")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("NAME")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Startdate)
+                    .HasColumnName("STARTDATE")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Template).HasColumnName("TEMPLATE");
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.PrProject)
+                    .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PR_PROJECT_FO_CLIENT");
+            });
+
+            modelBuilder.Entity<PrTrack>(entity =>
+            {
+                entity.HasKey(e => new { e.ClientId, e.Id });
+
+                entity.ToTable("PR_TRACK");
+
+                entity.Property(e => e.ClientId).HasColumnName("CLIENT_ID");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Enddate)
+                    .HasColumnName("ENDDATE")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("NAME")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ProjectId).HasColumnName("PROJECT_ID");
+
+                entity.Property(e => e.Startdate)
+                    .HasColumnName("STARTDATE")
+                    .HasColumnType("date");
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.PrTrack)
+                    .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PR_TRACK_FO_CLIENT");
+
+                entity.HasOne(d => d.PrProject)
+                    .WithMany(p => p.PrTrack)
+                    .HasForeignKey(d => new { d.ClientId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PR_TRACK_PR_PROJECT");
+            });
+
+            modelBuilder.Entity<TrackRole>(entity =>
+            {
+                entity.HasKey(e => new { e.ClientId, e.RoleId, e.TrackId });
+
+                entity.ToTable("TRACK_ROLE");
+
+                entity.Property(e => e.ClientId).HasColumnName("CLIENT_ID");
+
+                entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
+
+                entity.Property(e => e.TrackId).HasColumnName("TRACK_ID");
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.TrackRole)
+                    .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRACK_ROLE_FO_CLIENT");
+
+                entity.HasOne(d => d.FoRole)
+                    .WithMany(p => p.TrackRole)
+                    .HasForeignKey(d => new { d.ClientId, d.RoleId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRACK_ROLE_FO_ROLE");
+
+                entity.HasOne(d => d.PrTrack)
+                    .WithMany(p => p.TrackRole)
+                    .HasForeignKey(d => new { d.ClientId, d.TrackId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TRACK_ROLE_PR_TRACK");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => new { e.ClientId, e.Id });
@@ -201,7 +317,9 @@ namespace Allocation.Models
 
                 entity.Property(e => e.SubSkillId).HasColumnName("SUB_SKILL_ID");
 
-                entity.Property(e => e.Proficiency).HasColumnName("PROFICIENCY");
+                entity.Property(e => e.Proficiency)
+                    .HasColumnName("PROFICIENCY")
+                    .HasDefaultValueSql("((100))");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.UserSubSkill)
